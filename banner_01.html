@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+		vertical-align: baseline;
+	}	
+
+	li {
+		list-style: none;
+	}
+
+	a {
+		color: #333;
+		text-decoration: none;
+	}
+
+	#wrap {
+		width: 500px;
+		height: 300px;
+		margin: 100px auto 0px;
+		position: relative;
+		overflow: hidden;
+		border: 1px solid #e5e5e5;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	#wrap:hover #paging span {
+		display: block;
+	}
+
+	#imgs img {
+		display: none;
+		position: absolute;
+	}
+
+	#paging span {
+		position: absolute;
+		background: rgba(0,0,0,0.5);
+		color: #fff;
+		font-size: 40px;
+		width: 50px;
+		height: 100px;
+		line-height: 100px;
+		text-align: center;
+		margin-top: -50px;
+		cursor: pointer;
+		display: none;
+		top:50%;
+	}
+
+	#paging span:hover {
+		background: rgba(0,0,0,0.8);
+	}
+
+	#paging .previous {
+		left: 0;
+	}
+
+	#paging .next {
+		right: 0;
+	}
+
+	#list {
+		position: absolute;
+		bottom: 10px;
+		left: 50%;
+		margin-left: -30px;
+	}
+
+	#list li {
+		width: 10px;
+		height: 10px;
+		border-radius: 5px;
+		background: white;
+		float: left;
+		margin: 0 5px;
+		cursor: pointer;
+	}
+
+	#list .on {
+		background: orange;
+	}
+
+</style>
+</head>
+<body>
+	<div id="wrap">
+		<div id="imgs">
+			<img src="imgs/0.jpg" alt="" width="500" height="300" />
+			<img src="imgs/1.jpg" alt="" width="500" height="300" />
+			<img src="imgs/2.jpg" alt="" width="500" height="300" />
+		</div>
+
+		<div id="paging">
+			<span class="previous">
+				&lt;
+			</span>
+			<span class="next">
+				&gt;
+			</span>
+		</div>
+
+		<ul id="list">
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+
+<script type="text/javascript">
+	
+	var wrap = document.getElementById('wrap');
+	var imgs = document.getElementById('imgs').getElementsByTagName('img');
+	var paging = document.getElementById('paging').getElementsByTagName('span');
+	var li = document.getElementById('list').getElementsByTagName('li');
+	var index = 0;
+	var timer = 0;
+	
+
+	imgs[index].style.display = "block";
+	li[index].className = 'on';
+	banner()
+
+	for(var i=0;i<li.length;i++){
+		li[i].index = i;
+		li[i].onclick = function () {
+			li[index].className = '';
+			imgs[index].style.display ='none';
+			index = this.index;
+			li[index].className ='on';
+			imgs[index].style.display = 'block';
+		}
+	}
+
+	for(var i=0; i<paging.length; i++){
+		if(i){
+			paging[i].onclick = function() {
+				li[index].className = '';
+				imgs[index].style.display ='none';
+				index++;
+				index = index % li.length;
+				li[index].className ='on';
+				imgs[index].style.display = 'block';
+			}
+		}else{
+			paging[i].onclick = function() {
+				li[index].className = '';
+				imgs[index].style.display ='none';
+				index--;
+				if(index<0) index = 2;
+				li[index].className ='on';
+				imgs[index].style.display = 'block';
+			}
+		}
+	}
+
+	function banner() {
+		timer = setInterval(function() {
+			li[index].className = '';
+			imgs[index].style.display ='none';
+			index++;
+			index = index % li.length;
+			li[index].className ='on';
+			imgs[index].style.display = 'block';
+		},100)
+	}
+	
+
+	wrap.onmouseenter = function(){
+		clearInterval(timer)
+	} 
+
+	wrap.onmouseleave = function(){
+		banner()
+	}
+
+
+</script>
+    
+</body>
+</html>
